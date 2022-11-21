@@ -3,7 +3,7 @@
     .shopee{
         display: flex;
         align-items: center;
-        width: 1200px;
+        max-width: 1200px;
         margin: 0 auto;
         padding-bottom: 15px;
         justify-content: space-between;
@@ -35,4 +35,17 @@
         cursor: pointer;
     }
 
+}
+.data-grid{
+    position: relative;
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    align-items: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    height: 3.5rem;
+    background-color: unset;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
 }

@@ -4,7 +4,7 @@ import { theme } from "../theme";
 import { Box, Container, Grid, Pagination } from '@mui/material';
 import { products } from '../__mocks__/products';
 import { ProductListToolbar } from '../components/product/product-list-toolbar';
-import { ProductCard } from '../components/product/product-card';
+import { TypeProductCard } from '../components/product/type-product-card';
 
 
 
@@ -27,7 +27,7 @@ function Product() {
                   <Grid container spacing={3}>
                     {products.map((product) => (
                       <Grid item key={product.id} lg={4} md={6} xs={12}>
-                        <ProductCard product={product} />
+                        <TypeProductCard product={product} />
                       </Grid>
                     ))}
                   </Grid>

@@ -62,6 +62,7 @@ export const AddProductTypeDetails = (props) => {
                 onChange={formik.handleChange}
                 variant="outlined"
                 required
+
               />
             </Grid>
             

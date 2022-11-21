@@ -6,9 +6,10 @@ import Product from "./pages/Product";
 import NotFound from "./pages/NotFoundPage";
 import Account from "./pages/Account";
 import PrivateRoute from "./PrivateRoute";
-import AddProduct from "./pages/AddProduct"
+import AddProduct from "./pages/AddProduct";
 import AddProductType from "./pages/AddProductType";
 import HomePage from "./pages/Home";
+import ProductDetails from "./pages/ProductDetail";
 
 function App() {
   return (
@@ -18,10 +19,14 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<HomePage />} />
+            <Route path="/product" element={<ProductDetails />} />
             <Route path="/admin" element={<PrivateRoute />}>
-              <Route path="/admin" element={< Product/>} />
+              <Route path="/admin" element={<Product />} />
               <Route path="/admin/producttype" element={<Product />} />
-              <Route path="/admin/producttype/new" element={<AddProductType />} />
+              <Route
+                path="/admin/producttype/new"
+                element={<AddProductType />}
+              />
               <Route path="/admin/products/new" element={<AddProduct />} />
               <Route path="/admin/account" element={<Account />} />
               <Route path="/admin/products" element={<Products />} />

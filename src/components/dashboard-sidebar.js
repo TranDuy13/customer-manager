@@ -6,11 +6,17 @@ import { ShoppingBag as ShoppingBagIcon } from "../icons/shopping-bag";
 import { User as UserIcon } from "../icons/user";
 
 import { Users as UsersIcon } from "../icons/users";
+import HomeIcon from '@mui/icons-material/Home';
 
 import { Logo } from "./logo";
 import { NavItem } from "./nav-item";
 
 const items = [
+  {
+    href: "/",
+    icon: <HomeIcon fontSize="small" />,
+    title: "Trang chủ ",
+  },
   {
     href: "/admin/products",
     icon: <UsersIcon fontSize="small" />,
