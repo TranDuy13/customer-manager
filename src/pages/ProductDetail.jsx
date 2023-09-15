@@ -19,7 +19,7 @@ function ProductDetails() {
                         <span className="text-sky-700 font-bold cursor-pointer">Nhớt AH62</span>
                     </div>
                     <div className="mt-[20px] flex flex-col flex lg:flex-row lg:flex-nowrap flex-wrap content-center justify-center">
-                        <div className="w-[50%] mr-[25px]">
+                        <div className="w-[70%] mr-[25px]">
                             <div className="">
                                 <img
                                     className="w-auto h-auto min-w-[280px]"
@@ -28,7 +28,7 @@ function ProductDetails() {
                                 />
                             </div>
                         </div>
-                        <div className="w-[50%] mr-[25px] min-w-[280px]">
+                        <div className="w-[70%] mr-[25px] min-w-[280px]">
                             <div className="">
                                 <div className="font-bold text-[20px]">
                                     44083-61020 BƠM THỦY LỰC MÁY XÚC LẬT KAWASAKI
