@@ -22,11 +22,6 @@ export const TypeProductCard = ({ product, ...rest }) => (
           pb: 3
         }}
       >
-        <Avatar
-          alt="Product"
-          src={product.media}
-          variant="square"
-        />
       </Box>
       <Typography
         align="center"
@@ -46,50 +41,7 @@ export const TypeProductCard = ({ product, ...rest }) => (
     </CardContent>
     <Box sx={{ flexGrow: 1 }} />
     <Divider />
-    <Box sx={{ p: 2 }}>
-      <Grid
-        container
-        spacing={2}
-        sx={{ justifyContent: 'space-between' }}
-      >
-        <Grid
-          item
-          sx={{
-            alignItems: 'center',
-            display: 'flex'
-          }}
-        >
-          <ClockIcon color="action" />
-          <Typography
-            color="textSecondary"
-            display="inline"
-            sx={{ pl: 1 }}
-            variant="body2"
-          >
-            Updated 2hr ago
-          </Typography>
-        </Grid>
-        <Grid
-          item
-          sx={{
-            alignItems: 'center',
-            display: 'flex'
-          }}
-        >
-          <ShoppingBagIcon color="action" />
-          <Typography
-            color="textSecondary"
-            display="inline"
-            sx={{ pl: 1 }}
-            variant="body2"
-          >
-            {product.totalDownloads}
-            {' '}
-            Purchases
-          </Typography>
-        </Grid>
-      </Grid>
-    </Box>
+
   </Card>
 );
 

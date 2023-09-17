@@ -27,11 +27,7 @@ const items = [
     icon: <ShoppingBagIcon fontSize="small" />,
     title: "Loại sản phẩm",
   },
-  {
-    href: "/admin/account",
-    icon: <UserIcon fontSize="small" />,
-    title: "Tài khoản",
-  },
+
 ];
 
 export const DashboardSidebar = () => {

@@ -28,7 +28,7 @@ export const CustomerListToolbar = (props) => (
       </Typography>
       <Box sx={{ m: 1 }}>
         <Button startIcon={<DownloadIcon fontSize="small" />} sx={{ mr: 1 }}>
-          Export
+          Back up dữ liệu
         </Button>
         <Button color="primary" variant="contained">
           <Link
@@ -56,7 +56,7 @@ export const CustomerListToolbar = (props) => (
                   </InputAdornment>
                 ),
               }}
-              placeholder="Search customer"
+              placeholder="Tìm kiếm sản phẩm"
               variant="outlined"
             />
           </Box>
