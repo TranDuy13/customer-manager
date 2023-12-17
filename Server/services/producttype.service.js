@@ -1,8 +1,9 @@
 const Product = require('../models/Product');
-const ProductType = require("../models/ProductType");
+const ProductType = require("../models/ProducType");
 
 const getAllProductType = async () => {
   try {
+    console.log(12313123);
     const product = await ProductType.find({});
     return {
       message: "Successfully get ProductType",
@@ -43,7 +44,14 @@ const getProductByProductType = async (id) => {
 
 const createProductType = async (body) => {
   try {
-    const newProduct = new ProductType(body);
+    const checkExits = await ProductType.findOne({name: body.type})
+    if(checkExits){
+      return {
+        message: "An error occurred",
+        success: false,
+      };
+    }
+    const newProduct = new ProductType({name: body.type});
     await newProduct.save();
     return {
       message: "Successfully create product",

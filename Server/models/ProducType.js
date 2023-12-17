@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const ProducType = new Schema(
 	{
-		name_product: {
+		name: {
 			type: String,
 			required: true,
 		},

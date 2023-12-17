@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export const ProductCard = ({ product, ...rest }) => (
     <>
-        <Link to="/product">
+        <Link to={`/product/${product._id}`}>
             <Card
                 sx={{
                     display: "flex",
@@ -19,13 +19,14 @@ export const ProductCard = ({ product, ...rest }) => (
                             justifyContent: "center",
                             pb: 2,
                         }}>
-                        <img
-                            src=" https://bizweb.dktcdn.net/thumb/large/100/199/851/products/krp4-23cvmhj-kayaba-hydraulic-pump-bst-3.jpg"
+                        <img   
+                            className="max-h-[200px]"
+                            src={product.images[0]}
                             alt=""
                         />
                     </Box>
                     <Typography align="center" color="textPrimary" gutterBottom variant="h5">
-                        <span className="text-lg font-semibold hover:text-sky-700">Máy bơm thủy lực 1SGH124LK</span>
+                        <span className="text-lg font-semibold hover:text-sky-700">{product.name_product}{' '}{product.model}</span>
                     </Typography>
                     <Typography align="center" color="textPrimary" variant="body1">
                         {product.description}

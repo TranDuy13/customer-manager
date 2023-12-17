@@ -26,7 +26,7 @@ export const CustomerListResults = ({ customers, ...rest }) => {
     let newSelectedCustomerIds;
 
     if (event.target.checked) {
-      newSelectedCustomerIds = customers.map((customer) => customer.id);
+      newSelectedCustomerIds = customers?.map((customer) => customer._id);
     } else {
       newSelectedCustomerIds = [];
     }
@@ -78,33 +78,33 @@ export const CustomerListResults = ({ customers, ...rest }) => {
               <TableRow>
                 <TableCell padding="checkbox">
                   <Checkbox
-                    checked={selectedCustomerIds.length === customers.length}
+                    checked={selectedCustomerIds.length === customers?.length}
                     color="primary"
                     indeterminate={
                       selectedCustomerIds.length > 0 &&
-                      selectedCustomerIds.length < customers.length
+                      selectedCustomerIds.length < customers?.length
                     }
                     onChange={handleSelectAll}
                   />
                 </TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell>Email</TableCell>
-                <TableCell>Location</TableCell>
-                <TableCell>Phone</TableCell>
-                <TableCell>Registration date</TableCell>
+                <TableCell>Tên sản phẩm</TableCell>
+                <TableCell>Thương hiệu</TableCell>
+                <TableCell>Loại</TableCell>
+                <TableCell>Model</TableCell>
+                <TableCell>Thời gian tạo</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {customers.slice(0, limit).map((customer) => (
+              {customers?.slice(0, limit)?.map((customer) => (
                 <TableRow
                   hover
-                  key={customer.id}
-                  selected={selectedCustomerIds.indexOf(customer.id) !== -1}
+                  key={customer._id}
+                  selected={selectedCustomerIds.indexOf(customer._id) !== -1}
                 >
                   <TableCell padding="checkbox">
                     <Checkbox
-                      checked={selectedCustomerIds.indexOf(customer.id) !== -1}
-                      onChange={(event) => handleSelectOne(event, customer.id)}
+                      checked={selectedCustomerIds.indexOf(customer._id) !== -1}
+                      onChange={(event) => handleSelectOne(event, customer._id)}
                       value="true"
                     />
                   </TableCell>
@@ -115,21 +115,18 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                         display: "flex",
                       }}
                     >
-                      <Avatar src={customer.avatarUrl} sx={{ mr: 2 }}>
-                        {getInitials(customer.name)}
+                      <Avatar src={customer.images[0]} sx={{ mr: 2 }}>
                       </Avatar>
                       <Typography color="textPrimary" variant="body1">
-                        {customer.name}
+                        {customer.name_product}
                       </Typography>
                     </Box>
                   </TableCell>
-                  <TableCell>{customer.email}</TableCell>
+                  <TableCell>{customer.brand}</TableCell>
+                  <TableCell>{customer.types?.name}</TableCell>
+                  <TableCell>{customer.model}</TableCell>
                   <TableCell>
-                    {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`}
-                  </TableCell>
-                  <TableCell>{customer.phone}</TableCell>
-                  <TableCell>
-                    {format(customer.createdAt, "dd/MM/yyyy")}
+                    {format(new Date(customer.createdAt), "dd/MM/yyyy")}
                   </TableCell>
                 </TableRow>
               ))}
@@ -139,7 +136,7 @@ export const CustomerListResults = ({ customers, ...rest }) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={customers.length}
+        count={customers?.length}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}

@@ -44,7 +44,7 @@ export const CustomerListToolbar = (props) => (
     <Box sx={{ mt: 3 }}>
       <Card>
         <CardContent>
-          <Box sx={{ maxWidth: 500 }}>
+          {/* <Box sx={{ maxWidth: 500 }}>
             <TextField
               fullWidth
               InputProps={{
@@ -59,7 +59,7 @@ export const CustomerListToolbar = (props) => (
               placeholder="Tìm kiếm sản phẩm"
               variant="outlined"
             />
-          </Box>
+          </Box> */}
         </CardContent>
       </Card>
     </Box>

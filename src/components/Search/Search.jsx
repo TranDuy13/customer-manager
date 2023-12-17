@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./Search.scss";
 import { Box } from "@mui/system";
 import logo from "./logo.jpg";
 import DensityMediumOutlinedIcon from "@mui/icons-material/DensityMediumOutlined";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
+import { useCallback } from "react";
+import { getAllProductType } from "../Services/ProductType/ProductTypeService";
 function Search() {
     const [open, setOpen] = useState(false);
     const handleClick = () => {
@@ -13,16 +15,16 @@ function Search() {
     const handleClickAway = () => {
         setOpen(false);
     };
-    const item = [
-        {
-            title: "Sản phẩm 1",
-        },
-        {
-            title: "Sản phẩm 2",
-        },
-        { title: "Sản phẩm 3" },
-        { title: "Sản phẩm 4" },
-    ];
+    const [ProductType, setProductType]= useState()
+    const loadData = useCallback(async()=>{
+        const res = await getAllProductType()
+        if(res.status===200){
+          setProductType(res.data.data)
+        }
+    },[])
+    useEffect(()=>{
+      loadData()
+    },[loadData])
     return (
         <>
             <div className="search-wrapper">
@@ -42,9 +44,9 @@ function Search() {
                             </button>
                             {open ? (
                                 <div className="dropdown-content">
-                                    {item.map((item) => (
+                                    {ProductType?.map((item) => (
                                         <div className="pr-[10px] pl-[10px] min-w-[180px] cursor-pointer hover:bg-gray-200 pt-[10px] pb-[10px]">
-                                            {item.title}
+                                            {item.name}
                                         </div>
                                     ))}
                                 </div>

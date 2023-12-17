@@ -10,6 +10,8 @@ import {
   Grid,
   TextField,
 } from "@mui/material";
+import { CreateProductType } from "../Services/ProductType/ProductTypeService";
+import { ToastContainer, toast } from "react-toastify";
 
 const states = [
   {
@@ -33,18 +35,20 @@ export const AddProductTypeDetails = (props) => {
       type: '',
 
     },
-    onSubmit: (values) => {},
+    onSubmit: async(values) => {
+      const res = await CreateProductType(values)
+      if(res.status===200){
+        toast.success('Tạo sản phẩm thành công!')
+      }else{
+        toast.error('Có lỗi xảy ra!')
+      }
+    },
     validationSchema: Yup.object({
       type: Yup.string().max(255).required("Tên sản phẩm là bắt buộc"),
-      from: Yup.number().required("Loại của sản phẩm là bắt buộc"),
-      code: Yup.string().max(255).required("Mã sản phẩm là bắt buộc."),
-      detail: Yup.string().max(2000).required("Mô tả chi tiết sản phẩm là bắt buộc."),
-      model: Yup.string().max(255).required("Model sản phẩm là bắt buộc."),
-      brand: Yup.string().max(255).required("Mô tả chi tiết sản phẩm là bắt buộc."),
-
     }),
   });
   return (
+ <>
     <form onSubmit={formik.handleSubmit} >
       <Card>
         <CardHeader  title="Loại sản phẩm" />
@@ -82,5 +86,7 @@ export const AddProductTypeDetails = (props) => {
         </Box>
       </Card>
     </form>
+    <ToastContainer/>
+ </>
   );
 };

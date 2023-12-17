@@ -24,17 +24,12 @@ function AddProducts() {
                 py: 8,
               }}
             >
-              <Container maxWidth="lg">
+              <Container maxWidth="xl">
                 <Typography sx={{ mb: 3 }} variant="h4">
                   Thêm sản phẩm
                 </Typography>
                 <Grid container spacing={3}>
-                  <Grid item lg={4} md={6} xs={12}>
-                    <AddProduct />
-                  </Grid>
-                  <Grid item lg={8} md={6} xs={12}>
                     <AddProductDetails />
-                  </Grid>
                 </Grid>
               </Container>
             </Box>

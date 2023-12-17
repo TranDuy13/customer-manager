@@ -34,6 +34,10 @@ function Footer() {
                             <PhoneIcon sx={{ marginRight: "5px" }} />
                             0917178028
                         </div>
+                        <div className="max-w-[420px] mb-3">
+                            <PhoneIcon sx={{ marginRight: "5px" }} />
+                            0865778028
+                        </div>
                         <div className="max-w-[420px] mb-3 hover:text-sky-400">
                             <FacebookIcon sx={{ marginRight: "5px" }} />
                             <a href="https://www.facebook.com/">https://www.facebook.com/</a>

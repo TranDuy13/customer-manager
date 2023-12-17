@@ -29,14 +29,7 @@ export const TypeProductCard = ({ product, ...rest }) => (
         gutterBottom
         variant="h5"
       >
-        {product.title}
-      </Typography>
-      <Typography
-        align="center"
-        color="textPrimary"
-        variant="body1"
-      >
-        {product.description}
+        {product.name}
       </Typography>
     </CardContent>
     <Box sx={{ flexGrow: 1 }} />

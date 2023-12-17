@@ -1,17 +1,28 @@
-import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useState, useEffect, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Verify } from "../components/Services/AuthService/sysService";
+import { login, reset } from "../components/features/auth/authSlice";
+import { currentWeb } from "../components/Services";
+import { useLocation } from "react-router-dom";
 export const LoginStatus = () => {
-  const [login, setLogin] = useState(false);
-  const [checking, setChecking] = useState(true);
-  //set auth when have be
-  const { user } = useSelector((state) => state.auth);
-  useEffect(() => {
-    if (user) {
-      setLogin(true);
-    } else {
-      setLogin(false);
-    }
-    setChecking(false);
-  }, [user]);
-  return { login, checking };
+    const [login1, setLogin] = useState(false);
+    const location = useLocation()
+    const [checking, setChecking] = useState(true);
+    const getAuth = useCallback(async () => {
+        setChecking(true);
+        debugger
+        const res = await Verify();
+        if (res.status === 200) {
+            setLogin(true);
+        } else {
+            setLogin(false)
+            localStorage.removeItem("_tok3n");
+            window.location.replace(currentWeb);
+        }
+        setChecking(false);
+    }, [location.pathname]);
+    useEffect(() => {
+        getAuth();
+    }, [getAuth]);
+    return { login1, checking };
 };

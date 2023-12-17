@@ -13,7 +13,7 @@ const verify = (req, res, next) => {
     return;
   }
   const token = header.split(" ")[1];
-  jwt.verify(token, ACCESS_TOKEN_SECRET, (err, decodedFromToken) => {
+  jwt.verify(token, 'ACCESS_TOKEN_SECRET', (err, decodedFromToken) => {
     if (err) {
       res.status(403).json({
         data: {
@@ -31,6 +31,7 @@ const verify = (req, res, next) => {
   });
 };
 const createToken = (data) => {
+  console.log(ACCESS_TOKEN_SECRET);
   return jwt.sign(
     {
       iss: "Tran Nhat Duy",
@@ -38,7 +39,7 @@ const createToken = (data) => {
       iat: new Date().getTime(),
       exp: new Date().setDate(new Date().getDate() + 1),
     },
-    ACCESS_TOKEN_SECRET
+    'ACCESS_TOKEN_SECRET'
   );
 };
 

@@ -25,13 +25,10 @@ const register = async (body) => {
       };
     }
     const hashedPassword = await argon2.hash(body.password);
-    const { username, password, name, email} = body;
+    const { username, password} = body;
     const newUser = new ADMIN({
       username,
       password: hashedPassword,
-      name,
-      email,
-  
     });
     await newUser.save();
     return {
@@ -47,6 +44,7 @@ const register = async (body) => {
 };
 const login = async (body) => {
   try {
+  
     const { username, password } = body;
     const admin = await ADMIN.findOne({
       username: username,
@@ -56,15 +54,17 @@ const login = async (body) => {
         message: "Invalid account!",
         success: false,
       };
-   
     const PasswordValid = await argon2.verify(admin.password, password);
+    
     if (!PasswordValid) {
       return {
         message: "Invalid password!",
         success: false,
       };
     }
+
     const token = jwtService.createToken(admin._id);
+
     return {
       message: "Login Successfully!",
       success: true,
@@ -79,7 +79,7 @@ const login = async (body) => {
 };
 const getAuth = async (body) => {
   try {
-    const user = await USER.findById(body);
+    const user = await ADMIN.findById(body);
     if (!user) {
       return {
         message: "Login Fail!",

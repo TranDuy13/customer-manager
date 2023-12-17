@@ -6,9 +6,7 @@ const authenticator = require("../authenticator/authenticator");
 const jwtService = require("../services/jwt.service");
 
 
-router.post("/create", Controller.createProduct);
-router.get("/:id", Controller.getProduct)
-
-
-
+router.post("/create",jwtService.verify, Controller.createProduct);
+router.get("/getAll", Controller.getAllProductS);
+router.get("/get/:id", Controller.getProduct);
 module.exports= router

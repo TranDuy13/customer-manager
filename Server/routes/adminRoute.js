@@ -8,11 +8,10 @@ const authenticator = require("../authenticator/authenticator");
 const jwtService = require("../services/jwt.service");
 router.get("/getAuth", jwtService.verify, Controller.getAuth);
 router.post(
-  "/register",
-  Validator.body(authenticator.register),
+  "/registers",
   Controller.register
 );
 
 router.post("/login", Validator.body(authenticator.login), Controller.login);
-
+router.post("/getAuth", jwtService.verify, Controller.getAuth);
 module.exports = router;

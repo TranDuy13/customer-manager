@@ -21,6 +21,7 @@
     "local-network-scanner": "^0.2.0",
     "mongoose": "^6.1.7",
     "nodemailer": "^6.8.0",
+    "pem": "^1.14.8",
     "speakeasy": "^2.0.0"
   },
   "devDependencies": {
