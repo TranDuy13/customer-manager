@@ -38,19 +38,20 @@ export const AddProductDetails = (props) => {
     const [selectedFiles, setSelectedFiles] = useState([]);
     const handleFileChange = (e) => {
         const files = e.target.files;
-        Promise.all(
-            Array.from(files).map((file) => {
-                return new Promise((resolve) => {
-                    const reader = new FileReader();
-                    reader.onload = (event) => {
-                        resolve(event.target.result);
-                    };
-                    reader.readAsDataURL(file);
-                });
-            })
-        ).then((base64Array) => {
-            setSelectedFiles([...selectedFiles, ...base64Array]);
-        });
+        setSelectedFiles([...selectedFiles, files]);
+        // Promise.all(
+        //     Array.from(files).map((file) => {
+        //         return new Promise((resolve) => {
+        //             const reader = new FileReader();
+        //             reader.onload = (event) => {
+        //                 resolve(event.target.result);
+        //             };
+        //             reader.readAsDataURL(file);
+        //         });
+        //     })
+        // ).then((base64Array) => {
+        //     setSelectedFiles([...selectedFiles, ...base64Array]);
+        // });
     };
     const formik = useFormik({
         initialValues: {
@@ -58,15 +59,14 @@ export const AddProductDetails = (props) => {
             types: "",
             from: "",
             code: "",
-            detail: "",
+            description: "",
             model: "",
             brand: "",
         },
         onSubmit: async (values) => {
-            
             const formData = {
                 ...values,
-                images: selectedFiles.length > 0 ? selectedFiles : undefined,
+                file: selectedFiles.length > 0 ? selectedFiles[0] : undefined,
             };
             const res = await CreateProduct(formData);
             if (res.status === 200) {
@@ -80,7 +80,7 @@ export const AddProductDetails = (props) => {
             from: Yup.string().required("Loại của sản phẩm là bắt buộc"),
             types: Yup.string().max(255).required("Mô tả chi tiết sản phẩm là bắt buộc."),
             code: Yup.string().max(255).required("Mã sản phẩm là bắt buộc."),
-            detail: Yup.string().max(2000).required("Mô tả chi tiết sản phẩm là bắt buộc."),
+            description: Yup.string().max(2000).required("Mô tả chi tiết sản phẩm là bắt buộc."),
             model: Yup.string().max(255).required("Model sản phẩm là bắt buộc."),
             brand: Yup.string().max(255).required("Mô tả chi tiết sản phẩm là bắt buộc."),
         }),
@@ -230,10 +230,10 @@ export const AddProductDetails = (props) => {
                                     <Grid item md={12} xs={12}>
                                         <TextField
                                             fullWidth
-                                            error={Boolean(formik.touched.detail && formik.errors.detail)}
-                                            helperText={formik.touched.detail && formik.errors.detail}
+                                            error={Boolean(formik.touched.description && formik.errors.description)}
+                                            helperText={formik.touched.description && formik.errors.description}
                                             label="Mô tả chi tiết sản phẩm"
-                                            name="detail"
+                                            name="description"
                                             onBlur={formik.handleBlur}
                                             onChange={formik.handleChange}
                                             variant="outlined"
@@ -263,7 +263,7 @@ export const AddProductDetails = (props) => {
                     ))}
                 </div>
             </div>
-            <ToastContainer/>
+            <ToastContainer />
         </>
     );
 };

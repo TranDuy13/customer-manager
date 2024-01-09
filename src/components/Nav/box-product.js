@@ -1,4 +1,3 @@
-import { products } from "../../__mocks__/products";
 import { Box, Grid } from "@mui/material";
 import { ProductCard } from "../../components/product/product-card";
 import { useCallback, useEffect, useState } from "react";
@@ -26,9 +25,7 @@ function BoxProduct() {
     useEffect(() => {
         loadData1();
     }, [loadData1]);
-    console.log(product?.length);
     const [choose, setChoose] = useState();
-    console.log();
     return (
         <>
             <div className="pr-[16px] pl-[16px] w-full mx-auto border-none border-[1px] opacity-100 mt-[30px] max-w-[1440px] mb-[1,5rem]">
@@ -54,33 +51,28 @@ function BoxProduct() {
                                 </div>
                             </div>
                             <div className="cursor-pointer m-[5px]">
-                                <Box sx={{ pt: 5 }}>
-                                    <Grid container spacing={2}>
+                                <Box className="xl:min-w-[900px] min-w-[200px]" sx={{ pt: 5 }}>
+                                    <div className="grid-cols-4 grid px-4 gap-2 lg:grid-cols-3  md:grid-cols-2  sm:grid-cols-2 max-[425px]:grid-cols-1">
                                         {product?.map((x, index) =>
                                             !choose ? (
-                                                <Grid
-                                                    item
-                                                    key={x.id}
-                                                    lg={x?.length > 3 ? 4 : x?.length}
-                                                    md={x?.length < 3 ? 6 : 3}
-                                                    sx={{ display: "flex", justifyContent: "center" }}>
-                                                    <ProductCard product={x} />
-                                                </Grid>
+                                                <ProductCard product={x} />
                                             ) : (
-                                                choose ===
-                                                x.types?._id?(
-                                                    <Grid
+                                                choose === x.types?._id && (
+                                                    <>
+                                                        <ProductCard product={x} />
+                                                        {/* <Grid
                                                         item
                                                         key={x.id}
                                                         lg={x?.length > 3 ? 4 : x?.length}
                                                         md={x?.length < 3 ? 6 : 3}
                                                         sx={{ display: "flex", justifyContent: "center" }}>
-                                                        <ProductCard product={x} />
-                                                    </Grid>
-                                                ):<div style={{color:'transparent'}}>Không có sản phẩm</div>
+                                                       
+                                                    </Grid> */}
+                                                    </>
+                                                )
                                             )
                                         )}
-                                    </Grid>
+                                    </div>
                                 </Box>
                             </div>
                         </div>

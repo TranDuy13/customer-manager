@@ -10,7 +10,7 @@ import AddProduct from "./pages/AddProduct";
 import AddProductType from "./pages/AddProductType";
 import HomePage from "./pages/Home";
 import ProductDetails from "./pages/ProductDetail";
-import { configEnv } from "./components/Services";
+import CateGory from "./pages/Category";
 
 function App() {
   return (
@@ -20,6 +20,7 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<HomePage />} />
+            <Route path="/danh-muc/:id" element={<CateGory />} />
             <Route path="/product/:id" element={<ProductDetails />} />
             <Route path="/admin" element={<PrivateRoute />}>
               <Route path="/admin" element={<Product />} />

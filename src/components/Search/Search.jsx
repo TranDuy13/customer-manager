@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./Search.scss";
 import { Box } from "@mui/system";
@@ -15,6 +15,7 @@ function Search() {
     const handleClickAway = () => {
         setOpen(false);
     };
+    const navigate = useNavigate()
     const [ProductType, setProductType]= useState()
     const loadData = useCallback(async()=>{
         const res = await getAllProductType()
@@ -45,7 +46,10 @@ function Search() {
                             {open ? (
                                 <div className="dropdown-content">
                                     {ProductType?.map((item) => (
-                                        <div className="pr-[10px] pl-[10px] min-w-[180px] cursor-pointer hover:bg-gray-200 pt-[10px] pb-[10px]">
+                                        <div onClick={()=>{
+                                            navigate(`/danh-muc/${item?._id}`)
+                                            setOpen(false)
+                                        }} className="pr-[10px] pl-[10px] min-w-[180px] cursor-pointer hover:bg-gray-200 pt-[10px] pb-[10px]">
                                             {item.name}
                                         </div>
                                     ))}

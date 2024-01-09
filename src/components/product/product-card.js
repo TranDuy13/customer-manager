@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export const ProductCard = ({ product, ...rest }) => (
     <>
-        <Link to={`/product/${product._id}`}>
+        <Link className="col-span-1" to={`/product/${product._id}`}>
             <Card
                 sx={{
                     display: "flex",

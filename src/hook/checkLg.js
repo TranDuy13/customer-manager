@@ -10,7 +10,7 @@ export const LoginStatus = () => {
     const [checking, setChecking] = useState(true);
     const getAuth = useCallback(async () => {
         setChecking(true);
-        debugger
+        
         const res = await Verify();
         if (res.status === 200) {
             setLogin(true);
