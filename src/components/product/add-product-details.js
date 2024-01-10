@@ -7,21 +7,7 @@ import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import { getAllProductType } from "../Services/ProductType/ProductTypeService";
 import { CreateProduct } from "../Services/Product/Product";
 import { ToastContainer, toast } from "react-toastify";
-
-const states = [
-    {
-        value: "Ho Chi Minh city, Viet Nam",
-        label: "Ho Chi Minh ",
-    },
-    {
-        value: "Da Nang city, Viet Nam",
-        label: "Da Nang",
-    },
-    {
-        value: "Ha Noi capital, Viet Nam",
-        label: "Ha Noi",
-    },
-];
+import { createFormData } from "../../utils/create-emotion-cache";
 
 export const AddProductDetails = (props) => {
     const [ProductType, setProductType] = useState();
@@ -37,8 +23,8 @@ export const AddProductDetails = (props) => {
     const fileInputRef = useRef(null);
     const [selectedFiles, setSelectedFiles] = useState([]);
     const handleFileChange = (e) => {
-        const files = e.target.files;
-        setSelectedFiles([...selectedFiles, files]);
+        const _files = Array.from(e.target.files);
+        setSelectedFiles([...selectedFiles,..._files]);
         // Promise.all(
         //     Array.from(files).map((file) => {
         //         return new Promise((resolve) => {
@@ -66,9 +52,16 @@ export const AddProductDetails = (props) => {
         onSubmit: async (values) => {
             const formData = {
                 ...values,
-                file: selectedFiles.length > 0 ? selectedFiles[0] : undefined,
+                // files: selectedFiles
             };
-            const res = await CreateProduct(formData);
+            const data = createFormData(formData);
+            if (selectedFiles.length > 0) {
+                selectedFiles.forEach((file) => {
+                    data.append("files", file);
+                });
+            }
+            const res = await CreateProduct(data);
+
             if (res.status === 200) {
                 toast.success("Tạo sản phẩm thành công!");
             } else {
@@ -259,7 +252,7 @@ export const AddProductDetails = (props) => {
                 </div>
                 <div className="grid w-[30%] grid-cols-2 gap-4">
                     {selectedFiles?.map((x, i) => (
-                        <img key={i} alt="" src={x} />
+                        <img key={i} alt="" src={URL.createObjectURL(x)} />
                     ))}
                 </div>
             </div>

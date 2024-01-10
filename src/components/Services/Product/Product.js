@@ -4,10 +4,7 @@ import { axiosGet, axiosPost } from "../BaseService";
 const defaultURL = "product";
 export const CreateProduct = async (data) => {
     const _url = `${defaultURL}/create`;
-    debugger
-
-    const new_formData = createFormData(data)
-    return axiosPost(_url, new_formData, {
+    return axiosPost(_url, data, {
         headers: { "Content-Type": "multipart/form-data" },
     });
 };

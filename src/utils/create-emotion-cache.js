@@ -11,7 +11,7 @@ export function createFormData(data, formData = new FormData(), parentKey) {
             break;
         case typeof data === "object" && !Array.isArray(data) && !(data instanceof Date) && !(data instanceof File):
             Object.keys(data).forEach((key) => {
-                formData = createFormData(data[key], formData, parentKey ? `${parentKey}.${key}` : key);
+                formData = createFormData(data[key], formData, parentKey ? `${parentKey}` : key);
             });
             break;
         case Array.isArray(data) && !(data instanceof File):
@@ -30,7 +30,7 @@ export function createFormData(data, formData = new FormData(), parentKey) {
             break;
         case data instanceof File:
             debugger
-            formData.append('file', data);
+            formData.append('files', data);
             break;
         default:
             formData.append(parentKey, data);
