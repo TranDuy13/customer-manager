@@ -33,7 +33,9 @@ function Products() {
                             <Container maxWidth={false}>
                                 <CustomerListToolbar />
                                 <Box sx={{ mt: 3 }}>
-                                    <CustomerListResults customers={product} />
+                                    <CustomerListResults callback={()=>{
+                                        loadData()
+                                    }} customers={product} />
                                 </Box>
                             </Container>
                         </Box>

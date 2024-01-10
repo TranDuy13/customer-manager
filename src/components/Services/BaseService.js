@@ -3,7 +3,7 @@ import { configEnv2 } from ".";
 const AxiosInstance = axios.create({
     baseURL: configEnv2,
     timeout: 3000,
-    headers: {"Access-Control-Allow-Origin": "*"}
+    headers: { "Access-Control-Allow-Origin": "*" },
 });
 AxiosInstance.interceptors.request.use(
     function (config) {
@@ -31,24 +31,33 @@ export function handleAxiosError(error) {
     }
 }
 export const axiosGet = async (url, config) => {
-    try { 
+    try {
         const data = await AxiosInstance.get(url, config);
         return data;
     } catch (error) {
         return handleAxiosError(error);
     }
 };
-export const axiosPost = async (url, body,config) => {
-    try { 
-        const data = await AxiosInstance.post(url,body, config);
+export const axiosPost = async (url, body, config) => {
+    try {
+        const data = await AxiosInstance.post(url, body, config);
         return data;
     } catch (error) {
         return handleAxiosError(error);
     }
 };
-export const axiosDelete = async (url, body,config) => {
-    try { 
+export const axiosDelete = async (url, body, config) => {
+    try {
         const data = await AxiosInstance.delete(url, config);
+        return data;
+    } catch (error) {
+        return handleAxiosError(error);
+    }
+};
+
+export const axiosPatch = async (url, body, config) => {
+    try {
+        const data = await AxiosInstance.patch(url, body, config);
         return data;
     } catch (error) {
         return handleAxiosError(error);

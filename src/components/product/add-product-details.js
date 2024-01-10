@@ -207,6 +207,7 @@ export const AddProductDetails = (props) => {
                                             name="types"
                                             onChange={formik.handleChange}
                                             required
+                                            defaultValue={ProductType&&ProductType[0]?._id}
                                             select
                                             SelectProps={{ native: true }}
                                             variant="outlined">
