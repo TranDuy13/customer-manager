@@ -3,10 +3,11 @@ import "../components/Search/Search.scss";
 import { useCallback, useEffect, useState } from "react";
 import BoxProduct from "../components/Nav/box-product";
 import Footer from "../components/Footer/Footer";
-import { getAllProductType } from "../components/Services/ProductType/ProductTypeService";
+import { getAllProductType, getProductByType } from "../components/Services/ProductType/ProductTypeService";
 import { getAllProduct } from "../components/Services/Product/Product";
 import { Box, Grid } from "@mui/material";
 import { ProductCard } from "../components/product/product-card";
+import { useParams } from "react-router-dom";
 function CateGory() {
     const [ProductType, setProductType] = useState();
     const loadData = useCallback(async () => {
@@ -15,12 +16,14 @@ function CateGory() {
             setProductType(res.data.data);
         }
     }, []);
+    const {id} = useParams()
+    console.log(id);
     useEffect(() => {
         loadData();
     }, [loadData]);
     const [product, setProduct] = useState();
     const loadData1 = useCallback(async () => {
-        const res = await getAllProduct();
+        const res = await getProductByType(id);
         if (res.status == 200) {
             setProduct(res.data.data);
         }

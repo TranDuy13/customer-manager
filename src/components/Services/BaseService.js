@@ -2,7 +2,6 @@ import axios, { AxiosRequestConfig } from "axios";
 import { configEnv2 } from ".";
 const AxiosInstance = axios.create({
     baseURL: configEnv2,
-    timeout: 3000,
     headers: { "Access-Control-Allow-Origin": "*" },
 });
 AxiosInstance.interceptors.request.use(

@@ -38,3 +38,27 @@ export function createFormData(data, formData = new FormData(), parentKey) {
     }
     return formData;
 }
+export function base64ToFile(base64String, filename) {
+    // Split the base64 string to get MIME type and base64 data
+    const parts = base64String.split(';base64,');
+    const mimeType = parts[0].split(':')[1];
+    const base64Data = parts[1];
+
+    // Convert base64 to raw binary data held in a string
+    const byteString = window.atob(base64Data);
+
+    // Write the bytes of the string to an ArrayBuffer
+    const arrayBuffer = new ArrayBuffer(byteString.length);
+    const uintArray = new Uint8Array(arrayBuffer);
+    for (let i = 0; i < byteString.length; i++) {
+        uintArray[i] = byteString.charCodeAt(i);
+    }
+
+    // Create a blob from the ArrayBuffer
+    const blob = new Blob([uintArray], { type: mimeType });
+
+    // Create a file from the blob
+    const file = new File([blob], filename, { type: mimeType });
+
+    return file;
+}

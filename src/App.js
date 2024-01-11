@@ -11,6 +11,9 @@ import AddProductType from "./pages/AddProductType";
 import HomePage from "./pages/Home";
 import ProductDetails from "./pages/ProductDetail";
 import CateGory from "./pages/Category";
+import { Info } from "@mui/icons-material";
+import Infomation from "./pages/Info";
+import Banner from "./pages/Banner";
 
 function App() {
   return (
@@ -30,6 +33,8 @@ function App() {
                 element={<AddProductType />}
               />
               <Route path="/admin/products/new" element={<AddProduct />} />
+              <Route path="/admin/banner" element={<Banner />} />
+              <Route path="/admin/info" element={<Infomation />} />
               <Route path="/admin/account" element={<Account />} />
               <Route path="/admin/products" element={<Products />} />
             </Route>

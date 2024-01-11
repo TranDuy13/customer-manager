@@ -190,7 +190,7 @@ export const CustomerListResults = ({ customers, callback, ...rest }) => {
                     onClose={() => setOpen(!open)}
                     aria-labelledby="simple-modal-title"
                     aria-describedby="simple-modal-description">
-                    <Box sx={{ width: 900 }} className={`${classes.paper} h-[80%] overflow-y-scroll`}>
+                    <Box sx={{ width: 900 }} className={`${classes.paper} h-[80%] overflow-y-scroll xl:min-w-[900px]`}>
                         <AddProductDetails callback={()=>{
                             callback()
                             setOpen(false)

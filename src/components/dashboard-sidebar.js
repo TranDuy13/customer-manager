@@ -27,6 +27,16 @@ const items = [
     icon: <ShoppingBagIcon fontSize="small" />,
     title: "Loại sản phẩm",
   },
+  {
+    href: "/admin/info",
+    icon: <ShoppingBagIcon fontSize="small" />,
+    title: "Thông tin trang web",
+  },
+  {
+    href: "/admin/banner",
+    icon: <ShoppingBagIcon fontSize="small" />,
+    title: "Banner",
+  },
 
 ];
 

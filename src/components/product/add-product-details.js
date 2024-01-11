@@ -7,11 +7,10 @@ import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import { getAllProductType } from "../Services/ProductType/ProductTypeService";
 import { CreateProduct, updateProductById } from "../Services/Product/Product";
 import { ToastContainer, toast } from "react-toastify";
-import { createFormData } from "../../utils/create-emotion-cache";
+import { base64ToFile, createFormData } from "../../utils/create-emotion-cache";
 
 export const AddProductDetails = (props) => {
     const [ProductType, setProductType] = useState();
-    console.log(props);
     const loadData = useCallback(async () => {
         const res = await getAllProductType();
         if (res.status === 200) {
@@ -22,6 +21,7 @@ export const AddProductDetails = (props) => {
     useEffect(() => {
         loadData();
     }, [loadData]);
+    const [imageEdit, setImageEdit] = useState(props.valueEdit?.data?.images);
     const fileInputRef = useRef(null);
     const [selectedFiles, setSelectedFiles] = useState([]);
     const handleFileChange = (e) => {
@@ -52,7 +52,6 @@ export const AddProductDetails = (props) => {
             brand: "",
         },
         onSubmit: async (values) => {
-            debugger;
             const formData = {
                 ...values,
                 // files: selectedFiles
@@ -71,7 +70,19 @@ export const AddProductDetails = (props) => {
                     toast.error("Tạo sản phẩm không thành công!");
                 }
             } else {
-                const res = await updateProductById(props.valueEdit?.data?._id, values);
+                const data = createFormData(values);
+                if (selectedFiles.length > 0) {
+                    selectedFiles?.forEach((file) => {
+                        data.append("files", file);
+                    });
+                }
+                if(imageEdit.length >0 ){
+                    imageEdit.forEach((file) => {
+                        let data_file = base64ToFile(file,'image.png')
+                        data.append("files", data_file);
+                    });
+                }
+                const res = await updateProductById(props.valueEdit?.data?._id, data);
                 if (res.status === 200) {
                     toast.success("Cập nhật sản phẩm thành công!");
                     props.callback();
@@ -94,6 +105,7 @@ export const AddProductDetails = (props) => {
                 name_product: clone_data.name_product,
                 types: clone_data.types,
             });
+            setImageEdit(props.valueEdit?.data.images)
         }
     }, [props]);
     return (
@@ -242,10 +254,12 @@ export const AddProductDetails = (props) => {
                         </Card>
                     </form>
                 </div>
-                <div className="2xl:grid w-[30%] xl:grid-cols-2 gap-4 grid-cols-1">
+                <div className=" w-[30%] xl:grid-cols-2 gap-4 grid-cols-1">
                     {selectedFiles?.map((x, i) => (
                         <div>
-                            <div className="px-2 flex items-center rounded-xl cursor-pointer bg-slate-200 absolute">X</div>
+                            <div className="px-2 flex items-center rounded-xl cursor-pointer bg-slate-200 absolute">
+                                X
+                            </div>
                             <img
                                 className="h-fit col-span-1 p-2 min-w-[150px]"
                                 key={i}
@@ -254,8 +268,17 @@ export const AddProductDetails = (props) => {
                             />
                         </div>
                     ))}
-                    {props.valueEdit?.data?.images?.map((x, i) => (
-                        <img className="h-fit col-span-1 p-2 min-w-[150px]" key={i} alt="" src={x} />
+                    {imageEdit?.map((x, i) => (
+                        <div>
+                            <div
+                                onClick={() => {
+                                    setImageEdit(imageEdit.filter((img) => img !== x));
+                                }}
+                                className="px-2 flex items-center rounded-xl cursor-pointer bg-slate-200 absolute">
+                                X
+                            </div>
+                            <img className="h-fit col-span-1 p-2 min-w-[150px]" key={i} alt="" src={x} />
+                        </div>
                     ))}
                 </div>
             </div>
