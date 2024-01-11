@@ -5,16 +5,18 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { CardActions, Typography } from "@mui/material";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import { getAllProductType } from "../Services/ProductType/ProductTypeService";
-import { CreateProduct } from "../Services/Product/Product";
+import { CreateProduct, updateProductById } from "../Services/Product/Product";
 import { ToastContainer, toast } from "react-toastify";
 import { createFormData } from "../../utils/create-emotion-cache";
 
 export const AddProductDetails = (props) => {
     const [ProductType, setProductType] = useState();
+    console.log(props);
     const loadData = useCallback(async () => {
         const res = await getAllProductType();
         if (res.status === 200) {
             setProductType(res.data.data);
+            formik.setValues({ types: res.data.data[0]?._id });
         }
     }, []);
     useEffect(() => {
@@ -24,7 +26,7 @@ export const AddProductDetails = (props) => {
     const [selectedFiles, setSelectedFiles] = useState([]);
     const handleFileChange = (e) => {
         const _files = Array.from(e.target.files);
-        setSelectedFiles([...selectedFiles,..._files]);
+        setSelectedFiles([...selectedFiles, ..._files]);
         // Promise.all(
         //     Array.from(files).map((file) => {
         //         return new Promise((resolve) => {
@@ -50,34 +52,50 @@ export const AddProductDetails = (props) => {
             brand: "",
         },
         onSubmit: async (values) => {
+            debugger;
             const formData = {
                 ...values,
                 // files: selectedFiles
             };
-            const data = createFormData(formData);
-            if (selectedFiles.length > 0) {
-                selectedFiles.forEach((file) => {
-                    data.append("files", file);
-                });
-            }
-            const res = await CreateProduct(data);
-
-            if (res.status === 200) {
-                toast.success("Tạo sản phẩm thành công!");
+            if (!props.valueEdit) {
+                const data = createFormData(formData);
+                if (selectedFiles.length > 0) {
+                    selectedFiles?.forEach((file) => {
+                        data.append("files", file);
+                    });
+                }
+                const res = await CreateProduct(data);
+                if (res.status === 200) {
+                    toast.success("Tạo sản phẩm thành công!");
+                } else {
+                    toast.error("Tạo sản phẩm không thành công!");
+                }
             } else {
-                toast.error("Tạo sản phẩm không thành công!");
+                const res = await updateProductById(props.valueEdit?.data?._id, values);
+                if (res.status === 200) {
+                    toast.success("Cập nhật sản phẩm thành công!");
+                    props.callback();
+                } else {
+                    toast.error("Cập nhật sản phẩm không thành công!");
+                }
             }
         },
-        validationSchema: Yup.object({
-            name_product: Yup.string().max(255).required("Tên sản phẩm là bắt buộc"),
-            from: Yup.string().required("Loại của sản phẩm là bắt buộc"),
-            types: Yup.string().max(255).required("Mô tả chi tiết sản phẩm là bắt buộc."),
-            code: Yup.string().max(255).required("Mã sản phẩm là bắt buộc."),
-            description: Yup.string().max(2000).required("Mô tả chi tiết sản phẩm là bắt buộc."),
-            model: Yup.string().max(255).required("Model sản phẩm là bắt buộc."),
-            brand: Yup.string().max(255).required("Mô tả chi tiết sản phẩm là bắt buộc."),
-        }),
+        validationSchema: Yup.object({}),
     });
+    useEffect(() => {
+        if (props.valueEdit?.data) {
+            let clone_data = props.valueEdit?.data;
+            formik.setValues({
+                brand: clone_data.brand,
+                code: clone_data.code,
+                description: clone_data.description,
+                from: clone_data.from,
+                model: clone_data.model,
+                name_product: clone_data.name_product,
+                types: clone_data.types,
+            });
+        }
+    }, [props]);
     return (
         <>
             <div className="flex">
@@ -132,85 +150,63 @@ export const AddProductDetails = (props) => {
                             <CardContent>
                                 <Grid container spacing={3}>
                                     <Grid item md={6} xs={12}>
-                                        <TextField
-                                            fullWidth
-                                            error={Boolean(formik.touched.name_product && formik.errors.name_product)}
-                                            helperText={formik.touched.name_product && formik.errors.name_product}
-                                            label="Tên sản phẩm"
+                                        <div>Tên sản phẩm</div>
+                                        <input
+                                            required
                                             name="name_product"
-                                            onBlur={formik.handleBlur}
                                             onChange={formik.handleChange}
-                                            variant="outlined"
-                                            required
-                                            // defaultValue={user.data.admin.name}
+                                            value={formik.values?.name_product}
+                                            className="w-full box-border border-[0.5px] p-2 border-slate-400 rounded-lg min-h-[40px]"
                                         />
                                     </Grid>
                                     <Grid item md={6} xs={12}>
-                                        <TextField
-                                            fullWidth
-                                            error={Boolean(formik.touched.from && formik.errors.from)}
-                                            helperText={formik.touched.from && formik.errors.from}
-                                            label="Xuất xứ"
+                                        <div>Xuất xứ</div>
+                                        <input
+                                            required
                                             name="from"
-                                            onBlur={formik.handleBlur}
                                             onChange={formik.handleChange}
-                                            variant="outlined"
-                                            required
-                                            // defaultValue={user.data.admin.name}
+                                            value={formik.values?.from}
+                                            className="w-full box-border border-[0.5px] p-2 border-slate-400 rounded-lg min-h-[40px]"
                                         />
                                     </Grid>
                                     <Grid item md={6} xs={12}>
-                                        <TextField
-                                            fullWidth
-                                            error={Boolean(formik.touched.brand && formik.errors.brand)}
-                                            helperText={formik.touched.brand && formik.errors.brand}
-                                            label="Thương hiệu"
+                                        <div>Thương hiệu</div>
+                                        <input
+                                            required
                                             name="brand"
-                                            onBlur={formik.handleBlur}
                                             onChange={formik.handleChange}
-                                            variant="outlined"
-                                            required
+                                            value={formik.values?.brand}
+                                            className="w-full box-border border-[0.5px] p-2 border-slate-400 rounded-lg min-h-[40px]"
                                         />
                                     </Grid>
                                     <Grid item md={6} xs={12}>
-                                        <TextField
-                                            fullWidth
-                                            error={Boolean(formik.touched.model && formik.errors.model)}
-                                            helperText={formik.touched.model && formik.errors.model}
-                                            label="Model"
+                                        <div>Model</div>
+                                        <input
+                                            required
                                             name="model"
-                                            onBlur={formik.handleBlur}
                                             onChange={formik.handleChange}
-                                            variant="outlined"
-                                            required
-                                            // defaultValue={user.data.admin.name}
+                                            value={formik.values?.model}
+                                            className="w-full box-border border-[0.5px] p-2 border-slate-400 rounded-lg min-h-[40px]"
                                         />
                                     </Grid>
                                     <Grid item md={6} xs={12}>
-                                        <TextField
-                                            fullWidth
-                                            error={Boolean(formik.touched.code && formik.errors.code)}
-                                            helperText={formik.touched.code && formik.errors.code}
-                                            label="Mã sản phẩm"
-                                            name="code"
-                                            onBlur={formik.handleBlur}
-                                            onChange={formik.handleChange}
-                                            variant="outlined"
+                                        <div>Mã sản phẩm</div>
+                                        <input
                                             required
+                                            name="code"
+                                            onChange={formik.handleChange}
+                                            value={formik.values?.code}
+                                            className="w-full box-border border-[0.5px] p-2 border-slate-400 rounded-lg min-h-[40px]"
                                         />
                                     </Grid>
 
                                     <Grid item md={6} xs={12}>
-                                        <TextField
-                                            fullWidth
-                                            label="Loại sản phẩm"
-                                            name="types"
+                                        <div>Loại sản phẩm</div>
+                                        <select
                                             onChange={formik.handleChange}
-                                            required
-                                            defaultValue={ProductType&&ProductType[0]?._id}
-                                            select
-                                            SelectProps={{ native: true }}
-                                            variant="outlined">
+                                            defaultValue={ProductType && ProductType[0]._id}
+                                            className="w-full box-border border-[0.5px] p-2 border-slate-400 rounded-lg min-h-[40px]"
+                                            name="types">
                                             {ProductType?.map((option) => (
                                                 <option
                                                     key={option._id}
@@ -219,20 +215,15 @@ export const AddProductDetails = (props) => {
                                                     {option.name}
                                                 </option>
                                             ))}
-                                        </TextField>
+                                        </select>
                                     </Grid>
                                     <Grid item md={12} xs={12}>
-                                        <TextField
-                                            fullWidth
-                                            error={Boolean(formik.touched.description && formik.errors.description)}
-                                            helperText={formik.touched.description && formik.errors.description}
-                                            label="Mô tả chi tiết sản phẩm"
-                                            name="description"
-                                            onBlur={formik.handleBlur}
-                                            onChange={formik.handleChange}
-                                            variant="outlined"
+                                        <input
                                             required
-                                            // defaultValue={user.data.admin.name}
+                                            name="description"
+                                            onChange={formik.handleChange}
+                                            value={formik.values?.description}
+                                            className="w-full box-border border-[0.5px] p-2 border-slate-400 rounded-lg min-h-[40px]"
                                         />
                                     </Grid>
                                 </Grid>
@@ -251,9 +242,20 @@ export const AddProductDetails = (props) => {
                         </Card>
                     </form>
                 </div>
-                <div className="grid w-[30%] grid-cols-2 gap-4">
+                <div className="2xl:grid w-[30%] xl:grid-cols-2 gap-4 grid-cols-1">
                     {selectedFiles?.map((x, i) => (
-                        <img key={i} alt="" src={URL.createObjectURL(x)} />
+                        <div>
+                            <div className="px-2 flex items-center rounded-xl cursor-pointer bg-slate-200 absolute">X</div>
+                            <img
+                                className="h-fit col-span-1 p-2 min-w-[150px]"
+                                key={i}
+                                alt=""
+                                src={URL.createObjectURL(x)}
+                            />
+                        </div>
+                    ))}
+                    {props.valueEdit?.data?.images?.map((x, i) => (
+                        <img className="h-fit col-span-1 p-2 min-w-[150px]" key={i} alt="" src={x} />
                     ))}
                 </div>
             </div>

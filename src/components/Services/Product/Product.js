@@ -1,5 +1,5 @@
 import { createFormData } from "../../../utils/create-emotion-cache";
-import { axiosGet, axiosPatch, axiosPost } from "../BaseService";
+import { axiosGet, axiosPatch, axiosPost, axiosPut } from "../BaseService";
 
 const defaultURL = "product";
 export const CreateProduct = async (data) => {
@@ -16,6 +16,11 @@ export const getProductById = async (id) => {
     const _url = `${defaultURL}/${id}`;
     return axiosGet(_url);
 };
+
+export const updateProductById = async (id, body) =>{
+    const _url = `${defaultURL}/${id}`;
+    return axiosPut(_url, body)
+}
 
 export const deleteRangeProduct = async(body)=>{
     const _url = `${defaultURL}/deleterange`;

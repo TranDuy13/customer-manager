@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import PropTypes from "prop-types";
 import { format } from "date-fns";
@@ -16,37 +16,46 @@ import {
     TableRow,
     Typography,
 } from "@mui/material";
-import Modal from '@material-ui/core/Modal';
-import { deleteRangeProduct } from "../Services/Product/Product";
+import Modal from "@material-ui/core/Modal";
+import { deleteRangeProduct, getProductById } from "../Services/Product/Product";
 import { ToastContainer, toast } from "react-toastify";
 import { makeStyles } from "@material-ui/core";
 import { AddProductDetails } from "../product/add-product-details";
 const useStyles = makeStyles((theme) => ({
-  paper: {
-    position: 'absolute',
-    width: 400,
-    backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
+    paper: {
+        position: "absolute",
+        width: 400,
+        backgroundColor: theme.palette.background.paper,
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(2, 4, 3),
+    },
 }));
 function rand() {
-  return Math.round(Math.random() * 20) - 10;
+    return Math.round(Math.random() * 20) - 10;
 }
 function getModalStyle() {
-  const top = 100 + rand();
-  const left = 100 + rand();
+    const top = 100 + rand();
+    const left = 100 + rand();
 
-  return {
-    top: `${10}%`,
-    left: `${30}%`,
-  };
+    return {
+        top: `${10}%`,
+        left: `${30}%`,
+    };
 }
 export const CustomerListResults = ({ customers, callback, ...rest }) => {
     const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
     const [limit, setLimit] = useState(10);
     const [page, setPage] = useState(0);
-    const [modalStyle] = useState(getModalStyle);
+    const [open, setOpen] = useState(false);
+    const [value, setValue] = useState(false);
+    const handleGetProduct = useCallback(async () => {
+        if ((open, selectedCustomerIds.length === 1)) {
+            const res = await getProductById(selectedCustomerIds[0]);
+            if (res.status === 200) {
+                setValue(res.data);
+            }
+        }
+    }, [open, selectedCustomerIds]);
     const handleSelectAll = (event) => {
         let newSelectedCustomerIds;
 
@@ -95,7 +104,6 @@ export const CustomerListResults = ({ customers, callback, ...rest }) => {
     const handlePageChange = (event, newPage) => {
         setPage(newPage);
     };
-    const [open, setOpen] = useState(false);
 
     const classes = useStyles();
     return (
@@ -113,6 +121,7 @@ export const CustomerListResults = ({ customers, callback, ...rest }) => {
                         <Button
                             onClick={() => {
                                 setOpen(!open);
+                                handleGetProduct()
                             }}
                             disabled={selectedCustomerIds.length !== 1}
                             variant="contained">
@@ -174,15 +183,18 @@ export const CustomerListResults = ({ customers, callback, ...rest }) => {
                         </TableBody>
                     </Table>
                 </Box>
-                
+
                 <Modal
                     open={open}
                     className="flex justify-center items-center"
                     onClose={() => setOpen(!open)}
                     aria-labelledby="simple-modal-title"
                     aria-describedby="simple-modal-description">
-                    <Box  sx={{ width: 800, height: 900 }} className={classes.paper}>
-                      <AddProductDetails/>
+                    <Box sx={{ width: 900 }} className={`${classes.paper} h-[80%] overflow-y-scroll`}>
+                        <AddProductDetails callback={()=>{
+                            callback()
+                            setOpen(false)
+                        }} valueEdit={value}  />
                     </Box>
                 </Modal>
                 <ToastContainer />

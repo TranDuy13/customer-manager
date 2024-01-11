@@ -63,3 +63,12 @@ export const axiosPatch = async (url, body, config) => {
         return handleAxiosError(error);
     }
 };
+
+export const axiosPut = async (url, body, config) => {
+    try {
+        const data = await AxiosInstance.put(url, body, config);
+        return data;
+    } catch (error) {
+        return handleAxiosError(error);
+    }
+};
